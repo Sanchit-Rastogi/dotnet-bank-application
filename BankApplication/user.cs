@@ -34,6 +34,7 @@ namespace BankApplication
                 }
                 else
                 {
+                    Account userAccount = new Account(name);
                     flow.AccountHolderMenu();
                 }
             }
@@ -48,6 +49,7 @@ namespace BankApplication
                 }
                 else
                 {
+                    Account userAccount = new Account(name);
                     flow.AccountHolderMenu();
                 }
             }

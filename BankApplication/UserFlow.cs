@@ -5,6 +5,8 @@ namespace BankApplication
     {
         public UserFlow() { }
 
+        Account userAccount = new Account();
+
         public void DisplayMainMenu()
         {
             Console.WriteLine("Welcome to The Bank Application Project");
@@ -67,7 +69,6 @@ namespace BankApplication
 
         public void AccountHolderMenu()
         {
-            Console.Clear();
             Console.WriteLine("Hi! Welcome to the Account Holder menu :- ");
             Console.WriteLine("");
             Console.WriteLine("1. Deposite Money.");
@@ -78,16 +79,22 @@ namespace BankApplication
             switch (res)
             {
                 case 1:
-                    Console.WriteLine("deposite money");
+                    Console.WriteLine("Enter amount to be deposited :- ");
+                    decimal amountDeposited = Convert.ToInt32(Console.ReadLine());
+                    userAccount.MakeDeposite(amountDeposited, "Made a deposte", DateTime.Now);
                     break;
                 case 2:
-                    Console.WriteLine("withdraw money");
+                    Console.WriteLine("Enter amount to be withdrawn :- ");
+                    decimal amountWithdrawn = Convert.ToInt32(Console.ReadLine());
+                    Console.WriteLine("Enter note for withdrawl :- ");
+                    String note = Console.ReadLine();
+                    userAccount.MakeDeposite(amountWithdrawn, note, DateTime.Now);
                     break;
                 case 3:
-                    Console.WriteLine("transfer money");
+                    Console.WriteLine("transfer money under work");
                     break;
                 case 4:
-                    Console.WriteLine("view transaction");
+                    userAccount.DisplayTransactions();
                     break;
                 default:
                     Console.Clear();
