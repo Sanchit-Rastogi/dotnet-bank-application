@@ -4,17 +4,9 @@ namespace BankApplication
     public class Transaction
     {
 
-        public String Note;
-        public Decimal Amount;
-        public DateTime Date;
-        public String TxnId;
-
-        public Transaction(Decimal amount, String note, DateTime date, String txnId)
-        {
-            Note = note;
-            Amount = amount;
-            Date = date;
-            TxnId = txnId;
-        }
+        public string Note { get; set; }
+        public Decimal Amount { get; set; }
+        public DateTime Date { get; set; }
+        public string TxnId { get; set; }
     }
 }

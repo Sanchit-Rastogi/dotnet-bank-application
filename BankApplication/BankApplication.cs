@@ -1,29 +1,28 @@
 ﻿using System;
+using BankApplication.Services;
+
 namespace BankApplication
 {
-    public class UserFlow
+    public class BankApplication
     {
-        public UserFlow() { }
+        public BankApplication() { }
 
-        Account userAccount = new Account();
+        AccountServices accountServices = new AccountServices();
 
         public void DisplayMainMenu()
         {
-            Console.WriteLine("Welcome to The Bank Application Project");
-            Console.WriteLine("");
-            Console.WriteLine("");
-            Console.WriteLine("Please enter option from the list :- ");
-            Console.WriteLine("");
+            Console.WriteLine("Welcome to The Bank Application Project \n \n");
+            Console.WriteLine("Please enter option from the list :- \n");
             Console.WriteLine("1. Create a Bank");
             Console.WriteLine("2. Login for Staff / Account holder");
             Console.WriteLine("3. Save and Exit");
             int res = Convert.ToInt32(Console.ReadLine());
-            Bank bank = new Bank();
+            BankServices bankServices = new BankServices();
             switch (res)
             {
                 case 1:
                     Console.WriteLine("Registereing a new bank");
-                    bank.RegisterBank();
+                    bankServices.RegisterBank();
                     break;
                 case 2:
                     DisplayLoginMenu();
@@ -40,20 +39,19 @@ namespace BankApplication
 
         public void DisplayLoginMenu() {
             Console.Clear();
-            Console.WriteLine("Please enter option from the list :- ");
-            Console.WriteLine("");
+            Console.WriteLine("Please enter option from the list :- \n");
             Console.WriteLine("1. Login as a staff");
             Console.WriteLine("2. Login as a account holder");
             Console.WriteLine("3. Go Back to main menu");
             int res = Convert.ToInt32(Console.ReadLine());
-            User obj = new User();
+            UserLoginServices userLogin = new UserLoginServices();
             switch (res)
             {
                 case 1:
-                    obj.LoginUser("S");
+                    userLogin.LoginUser("S");
                     break;
                 case 2:
-                    obj.LoginUser("AH");
+                    userLogin.LoginUser("AH");
                     break;
                 case 3:
                     Console.Clear();
@@ -69,8 +67,7 @@ namespace BankApplication
 
         public void AccountHolderMenu()
         {
-            Console.WriteLine("Hi! Welcome to the Account Holder menu :- ");
-            Console.WriteLine("");
+            Console.WriteLine("Hi! Welcome to the Account Holder menu :- \n");
             Console.WriteLine("1. Deposite Money.");
             Console.WriteLine("2. Withdraw Money");
             Console.WriteLine("3. Transfer Funds");
@@ -81,20 +78,20 @@ namespace BankApplication
                 case 1:
                     Console.WriteLine("Enter amount to be deposited :- ");
                     decimal amountDeposited = Convert.ToInt32(Console.ReadLine());
-                    userAccount.MakeDeposite(amountDeposited, "Made a deposte", DateTime.Now);
+                    accountServices.MakeDeposite(amountDeposited, "Made a deposte", DateTime.Now);
                     break;
                 case 2:
                     Console.WriteLine("Enter amount to be withdrawn :- ");
                     decimal amountWithdrawn = Convert.ToInt32(Console.ReadLine());
                     Console.WriteLine("Enter note for withdrawl :- ");
-                    String note = Console.ReadLine();
-                    userAccount.MakeDeposite(amountWithdrawn, note, DateTime.Now);
+                    string note = Console.ReadLine();
+                    accountServices.MakeDeposite(amountWithdrawn, note, DateTime.Now);
                     break;
                 case 3:
                     Console.WriteLine("transfer money under work");
                     break;
                 case 4:
-                    userAccount.DisplayTransactions();
+                    accountServices.DisplayTransactions();
                     break;
                 default:
                     Console.Clear();
@@ -107,8 +104,7 @@ namespace BankApplication
         public void BankStaffMenu()
         {
             Console.Clear();
-            Console.WriteLine("Hi! Welcome to the bank staff menu :- ");
-            Console.WriteLine("");
+            Console.WriteLine("Hi! Welcome to the bank staff menu :- \n");
             Console.WriteLine("1. Create a new account.");
             Console.WriteLine("2. Update/Delete account.");
             Console.WriteLine("3. Add new currency.");

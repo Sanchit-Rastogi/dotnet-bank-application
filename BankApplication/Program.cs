@@ -6,8 +6,10 @@ namespace BankApplication
     { 
         static void Main(string[] args)
         {
-            UserFlow flow = new UserFlow();
-            flow.DisplayMainMenu();
+            BankApplication bankApp = new BankApplication();
+            bankApp.DisplayMainMenu();
         }
     }
 }
+
+// Q1. While using get/set and declaring constructor is giving an error ?
