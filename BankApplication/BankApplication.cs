@@ -85,7 +85,7 @@ namespace BankApplication
                     decimal amountWithdrawn = Convert.ToInt32(Console.ReadLine());
                     Console.WriteLine("Enter note for withdrawl :- ");
                     string note = Console.ReadLine();
-                    accountServices.MakeDeposite(amountWithdrawn, note, DateTime.Now);
+                    accountServices.MakeWithdrawal(amountWithdrawn, note, DateTime.Now);
                     break;
                 case 3:
                     Console.WriteLine("transfer money under work");
@@ -116,7 +116,7 @@ namespace BankApplication
             switch (res)
             {
                 case 1:
-                    Console.WriteLine("Create a new account.");
+                    DisplayLoginMenu();
                     break;
                 case 2:
                     Console.WriteLine("Update/Delete account.");

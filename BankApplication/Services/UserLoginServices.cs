@@ -13,15 +13,15 @@ namespace BankApplication.Services
             string name = Console.ReadLine();
             Console.WriteLine("Enter your password");
             string password = Console.ReadLine();
-            User loginUser = new User
+            User loginUser = new User()
             {
                 Name = name,
                 Password = password,
                 Role = role,
             };
-            Bank obj = new Bank();
+            BankData bankData = new BankData();
             BankApplication bankApp = new BankApplication();
-            if (obj.userList.Contains(loginUser))
+            if (bankData.UserList.Count != 0 && bankData.UserList.Contains(loginUser))
             {
                 Console.Clear();
                 Console.WriteLine("User successfully logged In");
@@ -36,7 +36,7 @@ namespace BankApplication.Services
             }
             else
             {
-                obj.userList.Add(loginUser);
+                bankData.UserList.Add(loginUser);
                 Console.Clear();
                 Console.WriteLine("New User successfully logged In");
                 if (role == "S")

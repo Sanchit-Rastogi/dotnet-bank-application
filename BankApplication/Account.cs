@@ -14,14 +14,13 @@ namespace BankApplication
             get
             {
                 Decimal bal = 0;
-                foreach (var transaction in AllTransaction)
+                BankData bankData = new BankData();
+                foreach (var transaction in bankData.AllTransaction)
                 {
                     bal += transaction.Amount;
                 }
                 return bal;
             } 
         }
-
-        public List<Transaction> AllTransaction { get; set; }
     }
 }

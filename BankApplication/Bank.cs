@@ -12,7 +12,6 @@ namespace BankApplication
         public int SameBankIMPSCharge { get; set; }
         public int DifferentBankRTGSCharge { get; set; }
         public int DifferentBankIMPSCharge { get; set; }
-        public List<User> userList { get; set; }
-
+        //public List<User> UserList = new List<User>();
     }
 }

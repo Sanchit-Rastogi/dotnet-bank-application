@@ -8,9 +8,9 @@ namespace BankApplication.Services
         }
 
         static User userObj = new User();
+        BankData bankData = new BankData();
         Account acc = new Account {
             Name = userObj.Name,
-            //AccId = userObj.Name.AsSpan(0, 3).ToString() + DateTime.Now.ToLongDateString(),
             AccId = "TXN" + DateTime.Now.ToLongDateString(),
         };
 
@@ -25,7 +25,7 @@ namespace BankApplication.Services
                     Date = date,
                     TxnId = id,
                 };
-                acc.AllTransaction.Add(deposite);
+                bankData.AllTransaction.Add(deposite);
                 Console.Clear();
                 Console.WriteLine("Amount deposited successfully");
                 Console.WriteLine("Current Balance " + acc.Balance.ToString());
@@ -45,9 +45,17 @@ namespace BankApplication.Services
                     Date = date,
                     TxnId = id,
                 };
-                acc.AllTransaction.Add(withdrawal);
+                bankData.AllTransaction.Add(withdrawal);
                 Console.Clear();
                 Console.WriteLine("Amount withdrawn successfully");
+                Console.WriteLine("Current Balance " + acc.Balance.ToString());
+                BankApplication bankApp = new BankApplication();
+                bankApp.AccountHolderMenu();
+            }
+            else
+            {
+                Console.Clear();
+                Console.WriteLine("Not enough balance in the account");
                 Console.WriteLine("Current Balance " + acc.Balance.ToString());
                 BankApplication bankApp = new BankApplication();
                 bankApp.AccountHolderMenu();
@@ -57,7 +65,7 @@ namespace BankApplication.Services
         public void DisplayTransactions()
         {
             Console.WriteLine("TXN ID \t\t NOTE \t\t AMOUNT \t\t DATE");
-            foreach (var transaction in acc.AllTransaction)
+            foreach (var transaction in bankData.AllTransaction)
             {
                 Console.WriteLine($"{transaction.TxnId} \t\t {transaction.Note} \t\t {transaction.Amount} \t\t {transaction.Date}");
             }
