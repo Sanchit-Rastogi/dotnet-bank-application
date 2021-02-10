@@ -3,8 +3,10 @@ namespace BankApplication.Services
 {
     public class UserLoginServices
     {
-        public UserLoginServices()
+        BankData bankData;
+        public UserLoginServices(BankData bankData)
         {
+            this.bankData = bankData;
         }
 
         public void LoginUser(string role)
@@ -19,7 +21,7 @@ namespace BankApplication.Services
                 Password = password,
                 Role = role,
             };
-            BankData bankData = new BankData();
+           
             BankApplication bankApp = new BankApplication();
             if (bankData.UserList.Count != 0 && bankData.UserList.Contains(loginUser))
             {

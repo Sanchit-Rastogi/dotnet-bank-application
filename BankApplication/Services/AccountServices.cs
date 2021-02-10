@@ -3,12 +3,13 @@ namespace BankApplication.Services
 {
     public class AccountServices
     {
-        public AccountServices()
+        BankData bankData;
+        public AccountServices(BankData bankData)
         {
+            this.bankData = bankData;
         }
 
         static User userObj = new User();
-        BankData bankData = new BankData();
         Account acc = new Account {
             Name = userObj.Name,
             AccId = "TXN" + DateTime.Now.ToLongDateString(),

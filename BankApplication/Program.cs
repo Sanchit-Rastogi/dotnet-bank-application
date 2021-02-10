@@ -7,6 +7,7 @@ namespace BankApplication
         static void Main(string[] args)
         {
             BankApplication bankApp = new BankApplication();
+           
             bankApp.DisplayMainMenu();
         }
     }

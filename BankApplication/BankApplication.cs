@@ -7,7 +7,8 @@ namespace BankApplication
     {
         public BankApplication() { }
 
-        AccountServices accountServices = new AccountServices();
+        BankData bankData = new BankData();
+       
 
         public void DisplayMainMenu()
         {
@@ -44,7 +45,7 @@ namespace BankApplication
             Console.WriteLine("2. Login as a account holder");
             Console.WriteLine("3. Go Back to main menu");
             int res = Convert.ToInt32(Console.ReadLine());
-            UserLoginServices userLogin = new UserLoginServices();
+            UserLoginServices userLogin = new UserLoginServices(bankData);
             switch (res)
             {
                 case 1:
@@ -67,11 +68,13 @@ namespace BankApplication
 
         public void AccountHolderMenu()
         {
+            AccountServices accountServices = new AccountServices(bankData);
             Console.WriteLine("Hi! Welcome to the Account Holder menu :- \n");
             Console.WriteLine("1. Deposite Money.");
             Console.WriteLine("2. Withdraw Money");
             Console.WriteLine("3. Transfer Funds");
             Console.WriteLine("4. View Transaction History");
+            Console.WriteLine("5. Go back to main menu");
             int res = Convert.ToInt32(Console.ReadLine());
             switch (res)
             {
@@ -92,6 +95,9 @@ namespace BankApplication
                     break;
                 case 4:
                     accountServices.DisplayTransactions();
+                    break;
+                case 5:
+                    DisplayMainMenu();
                     break;
                 default:
                     Console.Clear();
