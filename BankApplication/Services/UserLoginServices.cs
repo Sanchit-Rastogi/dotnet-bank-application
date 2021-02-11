@@ -19,10 +19,10 @@ namespace BankApplication.Services
             {
                 Name = name,
                 Password = password,
-                Role = role,
+                Role = role == "S" ? "Staff" : "Account Holder",
             };
            
-            BankApplication bankApp = new BankApplication();
+            BankApplication bankApp = new BankApplication(bankData);
             if (bankData.UserList.Count != 0 && bankData.UserList.Contains(loginUser))
             {
                 Console.Clear();

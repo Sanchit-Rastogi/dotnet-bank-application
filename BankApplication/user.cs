@@ -8,6 +8,5 @@ namespace BankApplication
         public string Role { get; set; }
         public string Password { get; set; }
 
-        //public User() { }
     }
 }

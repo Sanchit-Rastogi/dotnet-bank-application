@@ -10,13 +10,15 @@ namespace BankApplication.Services
         }
 
         static User userObj = new User();
-        Account acc = new Account {
-            Name = userObj.Name,
-            AccId = "TXN" + DateTime.Now.ToLongDateString(),
-        };
+       
 
         public void MakeDeposite(decimal amount, string note, DateTime date)
         {
+            Account acc = new Account(bankData)
+            {
+                Name = userObj.Name,
+                AccId = "TXN" + DateTime.Now.ToLongDateString(),
+            };
             if (amount > 0)
             {
                 string id = "TXN" + acc.AccId + DateTime.Now.ToLongDateString();
@@ -30,13 +32,18 @@ namespace BankApplication.Services
                 Console.Clear();
                 Console.WriteLine("Amount deposited successfully");
                 Console.WriteLine("Current Balance " + acc.Balance.ToString());
-                BankApplication bankApp = new BankApplication();
+                BankApplication bankApp = new BankApplication(bankData);
                 bankApp.AccountHolderMenu();
             }
         }
 
         public void MakeWithdrawal(decimal amount, string note, DateTime date)
         {
+            Account acc = new Account(bankData)
+            {
+                Name = userObj.Name,
+                AccId = "TXN" + DateTime.Now.ToLongDateString(),
+            };
             if (acc.Balance - amount > 0)
             {
                 string id = "TXN" + acc.AccId + DateTime.Now.ToLongDateString();
@@ -50,7 +57,7 @@ namespace BankApplication.Services
                 Console.Clear();
                 Console.WriteLine("Amount withdrawn successfully");
                 Console.WriteLine("Current Balance " + acc.Balance.ToString());
-                BankApplication bankApp = new BankApplication();
+                BankApplication bankApp = new BankApplication(bankData);
                 bankApp.AccountHolderMenu();
             }
             else
@@ -58,7 +65,7 @@ namespace BankApplication.Services
                 Console.Clear();
                 Console.WriteLine("Not enough balance in the account");
                 Console.WriteLine("Current Balance " + acc.Balance.ToString());
-                BankApplication bankApp = new BankApplication();
+                BankApplication bankApp = new BankApplication(bankData);
                 bankApp.AccountHolderMenu();
             }
         }
@@ -77,7 +84,7 @@ namespace BankApplication.Services
             {
                 default:
                     Console.Clear();
-                    BankApplication bankApp = new BankApplication();
+                    BankApplication bankApp = new BankApplication(bankData);
                     bankApp.AccountHolderMenu();
                     break;
             }

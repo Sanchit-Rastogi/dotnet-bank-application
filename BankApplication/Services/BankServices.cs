@@ -3,8 +3,10 @@ namespace BankApplication.Services
 {
     public class BankServices
     {
-        public BankServices()
+        BankData bankData;
+        public BankServices(BankData bankData)
         {
+            this.bankData = bankData;
         }
 
         public void RegisterBank()
@@ -21,7 +23,7 @@ namespace BankApplication.Services
                 DifferentBankRTGSCharge = 2,
                 DifferentBankIMPSCharge = 6,
             };
-            BankApplication bankApp = new BankApplication();
+            BankApplication bankApp = new BankApplication(bankData);
             Console.WriteLine("Bank with the name " + name + " is successfully registered !");
             bankApp.DisplayMainMenu();
         }

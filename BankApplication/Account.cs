@@ -5,6 +5,12 @@ namespace BankApplication
 {
     public class Account
     {
+
+        BankData bankData;
+        public Account(BankData bankData) {
+            this.bankData = bankData;
+        }
+
         public string Name { get; set; }
 
         public string AccId { get; set; }
@@ -14,7 +20,6 @@ namespace BankApplication
             get
             {
                 Decimal bal = 0;
-                BankData bankData = new BankData();
                 foreach (var transaction in bankData.AllTransaction)
                 {
                     bal += transaction.Amount;

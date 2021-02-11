@@ -5,10 +5,10 @@ namespace BankApplication
 {
     public class BankApplication
     {
-        public BankApplication() { }
-
-        BankData bankData = new BankData();
-       
+        BankData bankData;
+        public BankApplication(BankData bankData) {
+            this.bankData = bankData;
+        }
 
         public void DisplayMainMenu()
         {
@@ -18,7 +18,7 @@ namespace BankApplication
             Console.WriteLine("2. Login for Staff / Account holder");
             Console.WriteLine("3. Save and Exit");
             int res = Convert.ToInt32(Console.ReadLine());
-            BankServices bankServices = new BankServices();
+            BankServices bankServices = new BankServices(bankData);
             switch (res)
             {
                 case 1:
@@ -119,16 +119,17 @@ namespace BankApplication
             Console.WriteLine("6. View transactions history.");
             Console.WriteLine("7. Revert a transaction.");
             int res = Convert.ToInt32(Console.ReadLine());
+            BankStaffServices bankStaffServices = new BankStaffServices(bankData);
             switch (res)
             {
                 case 1:
                     DisplayLoginMenu();
                     break;
                 case 2:
-                    Console.WriteLine("Update/Delete account.");
+                    bankStaffServices.UpdateAccount();
                     break;
                 case 3:
-                    Console.WriteLine("Add new currency.");
+                    bankStaffServices.AddNewCurrency();
                     break;
                 case 4:
                     Console.WriteLine("Add service charges for this bank.");
