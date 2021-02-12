@@ -1,5 +1,8 @@
 ﻿using System;
 using BankApplication.Services;
+using System.IO;
+using System.Xml.Serialization;
+using System.Collections.Generic;
 
 namespace BankApplication
 {
@@ -10,8 +13,43 @@ namespace BankApplication
             this.bankData = bankData;
         }
 
+        public void SaveDate()
+        {
+            using (Stream fs = new FileStream($"{Environment.CurrentDirectory}/users.xml", FileMode.Create, FileAccess.Write, FileShare.None))
+            {
+                XmlSerializer serializer = new XmlSerializer(typeof(List<User>));
+                serializer.Serialize(fs, bankData.UserList);
+            }
+
+            using (Stream fs = new FileStream($"{Environment.CurrentDirectory}/transactions.xml", FileMode.Create, FileAccess.Write, FileShare.None))
+            {
+                XmlSerializer serializer = new XmlSerializer(typeof(List<Transaction>));
+                serializer.Serialize(fs, bankData.AllTransaction);
+            }
+
+            Console.Clear();
+            Console.WriteLine("Data Saved Successfully");
+            Console.WriteLine("Select one from the option\n");
+            Console.WriteLine("1. Exit the application");
+            Console.WriteLine("2. Go back to main menu");
+            int res = Convert.ToInt32(Console.ReadLine());
+            switch (res)
+            {
+                case 1:
+                    Environment.Exit(0);
+                    break;
+                case 2:
+                    DisplayMainMenu();
+                    break;
+                default:
+                    Console.WriteLine("Not a valid option!!");
+                    break;
+            }
+        }
+
         public void DisplayMainMenu()
         {
+            Console.Clear();
             Console.WriteLine("Welcome to The Bank Application Project \n \n");
             Console.WriteLine("Please enter option from the list :- \n");
             Console.WriteLine("1. Create a Bank");
@@ -29,7 +67,7 @@ namespace BankApplication
                     DisplayLoginMenu();
                     break;
                 case 3:
-                    Console.WriteLine("Option 3 is under work !");
+                    SaveDate();
                     break;
                 default:
                     Console.WriteLine("Please select a valid option !!");

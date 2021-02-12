@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 namespace BankApplication
 {
+    
     public class BankData
     {
         public List<User> UserList { get; set; }
@@ -14,5 +15,6 @@ namespace BankApplication
             AllTransaction = new List<Transaction>();
         }
 
+      
     }
 }
