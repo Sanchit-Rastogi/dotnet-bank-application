@@ -3,17 +3,19 @@ namespace BankApplication
 {
     public class BankStaffServices
     {
-        BankData bankData;
-        public BankStaffServices(BankData bankData)
-        {
-            this.bankData = bankData;
-        }
+        //BankData bankData;
+        //public BankStaffServices(BankData bankData)
+        //{
+        //    this.bankData = bankData;
+        //}
+
+        Bank bank = new Bank();
 
         public void UpdateAccount()
         {
-            foreach (var User in bankData.UserList) {
-                Console.WriteLine(User.Name + " is a " + User.Role);
-            }
+            //foreach (var User in bank.UserList) {
+            //    Console.WriteLine(User.Name + " is a " + User.Role);
+            //}
            
         }
 
@@ -27,7 +29,7 @@ namespace BankApplication
             Console.WriteLine($"New currency {sym} added with exchange rate of ${rate}");
             Console.WriteLine("Press Enter to go back to main menu");
             Console.ReadLine();
-            BankApplication bankApplication = new BankApplication(bankData);
+            BankApplication bankApplication = new BankApplication();
             bankApplication.BankStaffMenu();
         }
 

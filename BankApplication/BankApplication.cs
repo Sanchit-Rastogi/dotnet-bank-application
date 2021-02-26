@@ -8,23 +8,25 @@ namespace BankApplication
 {
     public class BankApplication
     {
-        BankData bankData;
-        public BankApplication(BankData bankData) {
-            this.bankData = bankData;
-        }
+        //BankData bankData;
+        //public BankApplication(BankData bankData) {
+        //    this.bankData = bankData;
+        //}
 
         public void SaveDate()
         {
-            using (Stream fs = new FileStream($"{Environment.CurrentDirectory}/users.xml", FileMode.Create, FileAccess.Write, FileShare.None))
-            {
-                XmlSerializer serializer = new XmlSerializer(typeof(List<User>));
-                serializer.Serialize(fs, bankData.UserList);
-            }
+            Bank bank = new Bank();
+
+            //using (Stream fs = new FileStream($"{Environment.CurrentDirectory}/users.xml", FileMode.Create, FileAccess.Write, FileShare.None))
+            //{
+            //    XmlSerializer serializer = new XmlSerializer(typeof(List<User>));
+            //    serializer.Serialize(fs, bank.UserList);
+            //}
 
             using (Stream fs = new FileStream($"{Environment.CurrentDirectory}/transactions.xml", FileMode.Create, FileAccess.Write, FileShare.None))
             {
                 XmlSerializer serializer = new XmlSerializer(typeof(List<Transaction>));
-                serializer.Serialize(fs, bankData.AllTransaction);
+                serializer.Serialize(fs, bank.AllTransaction);
             }
 
             Console.Clear();
@@ -56,7 +58,8 @@ namespace BankApplication
             Console.WriteLine("2. Login for Staff / Account holder");
             Console.WriteLine("3. Save and Exit");
             int res = Convert.ToInt32(Console.ReadLine());
-            BankServices bankServices = new BankServices(bankData);
+            BankServices bankServices = new BankServices();
+            Bank bank = new Bank();
             switch (res)
             {
                 case 1:
@@ -67,7 +70,13 @@ namespace BankApplication
                     DisplayLoginMenu();
                     break;
                 case 3:
-                    SaveDate();
+                    Console.WriteLine("Currently it does nothing");
+                    //SaveDate();
+                    //List<User> savedUsers = bank.GetUsers();
+                    //foreach(User user in savedUsers)
+                    //{
+                    //    Console.WriteLine(user.Name);
+                    //}
                     break;
                 default:
                     Console.WriteLine("Please select a valid option !!");
@@ -81,9 +90,10 @@ namespace BankApplication
             Console.WriteLine("Please enter option from the list :- \n");
             Console.WriteLine("1. Login as a staff");
             Console.WriteLine("2. Login as a account holder");
+            Console.WriteLine("3. Login as an admin");
             Console.WriteLine("3. Go Back to main menu");
             int res = Convert.ToInt32(Console.ReadLine());
-            UserLoginServices userLogin = new UserLoginServices(bankData);
+            UserLoginServices userLogin = new UserLoginServices();
             switch (res)
             {
                 case 1:
@@ -93,6 +103,9 @@ namespace BankApplication
                     userLogin.LoginUser("AH");
                     break;
                 case 3:
+                    userLogin.LoginUser("AD");
+                    break;
+                case 4:
                     Console.Clear();
                     DisplayMainMenu();
                     break;
@@ -106,7 +119,7 @@ namespace BankApplication
 
         public void AccountHolderMenu()
         {
-            AccountServices accountServices = new AccountServices(bankData);
+            AccountServices accountServices = new AccountServices();
             Console.WriteLine("Hi! Welcome to the Account Holder menu :- \n");
             Console.WriteLine("1. Deposite Money.");
             Console.WriteLine("2. Withdraw Money");
@@ -157,7 +170,7 @@ namespace BankApplication
             Console.WriteLine("6. View transactions history.");
             Console.WriteLine("7. Revert a transaction.");
             int res = Convert.ToInt32(Console.ReadLine());
-            BankStaffServices bankStaffServices = new BankStaffServices(bankData);
+            BankStaffServices bankStaffServices = new BankStaffServices();
             switch (res)
             {
                 case 1:

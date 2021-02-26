@@ -1,13 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
+
 namespace BankApplication.Services
 {
     public class UserLoginServices
     {
-        BankData bankData;
-        public UserLoginServices(BankData bankData)
-        {
-            this.bankData = bankData;
-        }
+        //BankData bankData;
+        //public UserLoginServices(BankData bankData)
+        //{
+        //    this.bankData = bankData;
+        //}
 
         public void LoginUser(string role)
         {
@@ -19,15 +21,17 @@ namespace BankApplication.Services
             {
                 Name = name,
                 Password = password,
-                Role = role == "S" ? "Staff" : "Account Holder",
+                Role = role == "S" ? "Staff" : role == "AH" ? "Account Holder" : "Admin",
             };
            
-            BankApplication bankApp = new BankApplication(bankData);
-            if (bankData.UserList.Count != 0 && bankData.UserList.Contains(loginUser))
+            BankApplication bankApp = new BankApplication();
+            Bank bank = new Bank();
+            List<User> savedUsers = bank.GetUsers();
+            if (savedUsers.Count != 0 && savedUsers.Contains(loginUser))
             {
                 Console.Clear();
                 Console.WriteLine("User successfully logged In");
-                if (role == "S")
+                if (role == "S" || role == "AD")
                 {
                     bankApp.BankStaffMenu();
                 }
@@ -38,10 +42,10 @@ namespace BankApplication.Services
             }
             else
             {
-                bankData.UserList.Add(loginUser);
+                bank.AddUser(loginUser);
                 Console.Clear();
                 Console.WriteLine("New User successfully logged In");
-                if (role == "S")
+                if (role == "S" || role == "AD")
                 {
                     bankApp.BankStaffMenu();
                 }

@@ -6,11 +6,9 @@ namespace BankApplication
     { 
         static void Main(string[] args)
         {
-            BankData bankData = new BankData();
-            BankApplication bankApp = new BankApplication(bankData);
+            //BankData bankData = new BankData();
+            BankApplication bankApp = new BankApplication();
             bankApp.DisplayMainMenu();
         }
     }
 }
-
-// Added develope branch 
