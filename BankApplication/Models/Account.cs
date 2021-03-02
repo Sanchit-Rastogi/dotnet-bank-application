@@ -22,7 +22,8 @@ namespace BankApplication
             get
             {
                 Decimal bal = 0;
-                foreach (var transaction in bank.AllTransaction)
+                List<Transaction> allTransactions = bank.GetTransaction();
+                foreach (var transaction in allTransactions)
                 {
                     bal += transaction.Amount;
                 }

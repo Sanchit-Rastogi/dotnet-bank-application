@@ -22,7 +22,6 @@ namespace BankApplication.Services
                 SameBankIMPSCharge = 5,
                 DifferentBankRTGSCharge = 2,
                 DifferentBankIMPSCharge = 6,
-                AllTransaction = { },
             };
             BankApplication bankApp = new BankApplication();
             Console.WriteLine("Bank with the name " + name + " is successfully registered !");

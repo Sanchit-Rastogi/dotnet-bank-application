@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+
 namespace BankApplication.Services
 {
     public class AccountServices
@@ -29,7 +31,7 @@ namespace BankApplication.Services
                     Date = date,
                     TxnId = id,
                 };
-                bank.AllTransaction.Add(deposite);
+                bank.AddTransaction(deposite);
                 Console.Clear();
                 Console.WriteLine("Amount deposited successfully");
                 Console.WriteLine("Current Balance " + acc.Balance.ToString());
@@ -54,7 +56,7 @@ namespace BankApplication.Services
                     Date = date,
                     TxnId = id,
                 };
-                bank.AllTransaction.Add(withdrawal);
+                bank.AddTransaction(withdrawal);
                 Console.Clear();
                 Console.WriteLine("Amount withdrawn successfully");
                 Console.WriteLine("Current Balance " + acc.Balance.ToString());
@@ -74,7 +76,8 @@ namespace BankApplication.Services
         public void DisplayTransactions()
         {
             Console.WriteLine("TXN ID \t\t NOTE \t\t AMOUNT \t\t DATE");
-            foreach (var transaction in bank.AllTransaction)
+            List<Transaction> allTransactions = bank.GetTransaction();
+            foreach (var transaction in allTransactions)
             {
                 Console.WriteLine($"{transaction.TxnId} \t\t {transaction.Note} \t\t {transaction.Amount} \t\t {transaction.Date}");
             }

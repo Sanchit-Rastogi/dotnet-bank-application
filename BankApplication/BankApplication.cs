@@ -13,41 +13,41 @@ namespace BankApplication
         //    this.bankData = bankData;
         //}
 
-        public void SaveDate()
-        {
-            Bank bank = new Bank();
+        //public void SaveDate()
+        //{
+        //    //Bank bank = new Bank();
 
-            //using (Stream fs = new FileStream($"{Environment.CurrentDirectory}/users.xml", FileMode.Create, FileAccess.Write, FileShare.None))
-            //{
-            //    XmlSerializer serializer = new XmlSerializer(typeof(List<User>));
-            //    serializer.Serialize(fs, bank.UserList);
-            //}
+        //    //using (Stream fs = new FileStream($"{Environment.CurrentDirectory}/users.xml", FileMode.Create, FileAccess.Write, FileShare.None))
+        //    //{
+        //    //    XmlSerializer serializer = new XmlSerializer(typeof(List<User>));
+        //    //    serializer.Serialize(fs, bank.UserList);
+        //    //}
 
-            using (Stream fs = new FileStream($"{Environment.CurrentDirectory}/transactions.xml", FileMode.Create, FileAccess.Write, FileShare.None))
-            {
-                XmlSerializer serializer = new XmlSerializer(typeof(List<Transaction>));
-                serializer.Serialize(fs, bank.AllTransaction);
-            }
+        //    //using (Stream fs = new FileStream($"{Environment.CurrentDirectory}/transactions.xml", FileMode.Create, FileAccess.Write, FileShare.None))
+        //    //{
+        //    //    XmlSerializer serializer = new XmlSerializer(typeof(List<Transaction>));
+        //    //    serializer.Serialize(fs, bank.AllTransaction);
+        //    //}
 
-            Console.Clear();
-            Console.WriteLine("Data Saved Successfully");
-            Console.WriteLine("Select one from the option\n");
-            Console.WriteLine("1. Exit the application");
-            Console.WriteLine("2. Go back to main menu");
-            int res = Convert.ToInt32(Console.ReadLine());
-            switch (res)
-            {
-                case 1:
-                    Environment.Exit(0);
-                    break;
-                case 2:
-                    DisplayMainMenu();
-                    break;
-                default:
-                    Console.WriteLine("Not a valid option!!");
-                    break;
-            }
-        }
+        //    Console.Clear();
+        //    Console.WriteLine("Data Saved Successfully");
+        //    Console.WriteLine("Select one from the option\n");
+        //    Console.WriteLine("1. Exit the application");
+        //    Console.WriteLine("2. Go back to main menu");
+        //    int res = Convert.ToInt32(Console.ReadLine());
+        //    switch (res)
+        //    {
+        //        case 1:
+        //            Environment.Exit(0);
+        //            break;
+        //        case 2:
+        //            DisplayMainMenu();
+        //            break;
+        //        default:
+        //            Console.WriteLine("Not a valid option!!");
+        //            break;
+        //    }
+        //}
 
         public void DisplayMainMenu()
         {
@@ -56,10 +56,9 @@ namespace BankApplication
             Console.WriteLine("Please enter option from the list :- \n");
             Console.WriteLine("1. Create a Bank");
             Console.WriteLine("2. Login for Staff / Account holder");
-            Console.WriteLine("3. Save and Exit");
+            Console.WriteLine("3. Exit");
             int res = Convert.ToInt32(Console.ReadLine());
             BankServices bankServices = new BankServices();
-            Bank bank = new Bank();
             switch (res)
             {
                 case 1:
@@ -70,13 +69,7 @@ namespace BankApplication
                     DisplayLoginMenu();
                     break;
                 case 3:
-                    Console.WriteLine("Currently it does nothing");
-                    //SaveDate();
-                    //List<User> savedUsers = bank.GetUsers();
-                    //foreach(User user in savedUsers)
-                    //{
-                    //    Console.WriteLine(user.Name);
-                    //}
+                    Environment.Exit(0);
                     break;
                 default:
                     Console.WriteLine("Please select a valid option !!");
