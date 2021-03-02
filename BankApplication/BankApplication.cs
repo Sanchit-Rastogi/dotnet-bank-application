@@ -8,57 +8,30 @@ namespace BankApplication
 {
     public class BankApplication
     {
-        //BankData bankData;
-        //public BankApplication(BankData bankData) {
-        //    this.bankData = bankData;
-        //}
+        Bank bank;
+        public BankApplication(Bank bank)
+        {
+            this.bank = bank;
+        }
 
-        //public void SaveDate()
-        //{
-        //    //Bank bank = new Bank();
-
-        //    //using (Stream fs = new FileStream($"{Environment.CurrentDirectory}/users.xml", FileMode.Create, FileAccess.Write, FileShare.None))
-        //    //{
-        //    //    XmlSerializer serializer = new XmlSerializer(typeof(List<User>));
-        //    //    serializer.Serialize(fs, bank.UserList);
-        //    //}
-
-        //    //using (Stream fs = new FileStream($"{Environment.CurrentDirectory}/transactions.xml", FileMode.Create, FileAccess.Write, FileShare.None))
-        //    //{
-        //    //    XmlSerializer serializer = new XmlSerializer(typeof(List<Transaction>));
-        //    //    serializer.Serialize(fs, bank.AllTransaction);
-        //    //}
-
-        //    Console.Clear();
-        //    Console.WriteLine("Data Saved Successfully");
-        //    Console.WriteLine("Select one from the option\n");
-        //    Console.WriteLine("1. Exit the application");
-        //    Console.WriteLine("2. Go back to main menu");
-        //    int res = Convert.ToInt32(Console.ReadLine());
-        //    switch (res)
-        //    {
-        //        case 1:
-        //            Environment.Exit(0);
-        //            break;
-        //        case 2:
-        //            DisplayMainMenu();
-        //            break;
-        //        default:
-        //            Console.WriteLine("Not a valid option!!");
-        //            break;
-        //    }
-        //}
+        public void SaveToXML()
+        {
+            XmlSerializer serializer = new XmlSerializer(typeof(Bank));
+            TextWriter writer = new StreamWriter("bankData.xml");
+            serializer.Serialize(writer, bank);
+            writer.Close();
+        }
 
         public void DisplayMainMenu()
         {
-            Console.Clear();
+            //Console.Clear();
             Console.WriteLine("Welcome to The Bank Application Project \n \n");
             Console.WriteLine("Please enter option from the list :- \n");
             Console.WriteLine("1. Create a Bank");
             Console.WriteLine("2. Login for Staff / Account holder");
             Console.WriteLine("3. Exit");
             int res = Convert.ToInt32(Console.ReadLine());
-            BankServices bankServices = new BankServices();
+            BankServices bankServices = new BankServices(bank);
             switch (res)
             {
                 case 1:
@@ -69,7 +42,8 @@ namespace BankApplication
                     DisplayLoginMenu();
                     break;
                 case 3:
-                    Environment.Exit(0);
+                    SaveToXML();
+                    //Environment.Exit(0);
                     break;
                 default:
                     Console.WriteLine("Please select a valid option !!");
@@ -86,7 +60,7 @@ namespace BankApplication
             Console.WriteLine("3. Login as an admin");
             Console.WriteLine("3. Go Back to main menu");
             int res = Convert.ToInt32(Console.ReadLine());
-            UserLoginServices userLogin = new UserLoginServices();
+            UserLoginServices userLogin = new UserLoginServices(bank);
             switch (res)
             {
                 case 1:
@@ -96,7 +70,7 @@ namespace BankApplication
                     userLogin.LoginUser("AH");
                     break;
                 case 3:
-                    userLogin.LoginUser("AD");
+                    userLogin.LoginUser("S");
                     break;
                 case 4:
                     Console.Clear();
@@ -112,7 +86,7 @@ namespace BankApplication
 
         public void AccountHolderMenu()
         {
-            AccountServices accountServices = new AccountServices();
+            AccountServices accountServices = new AccountServices(bank);
             Console.WriteLine("Hi! Welcome to the Account Holder menu :- \n");
             Console.WriteLine("1. Deposite Money.");
             Console.WriteLine("2. Withdraw Money");
@@ -163,7 +137,7 @@ namespace BankApplication
             Console.WriteLine("6. View transactions history.");
             Console.WriteLine("7. Revert a transaction.");
             int res = Convert.ToInt32(Console.ReadLine());
-            BankStaffServices bankStaffServices = new BankStaffServices();
+            BankStaffServices bankStaffServices = new BankStaffServices(bank);
             switch (res)
             {
                 case 1:

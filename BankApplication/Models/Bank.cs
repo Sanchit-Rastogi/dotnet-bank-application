@@ -5,6 +5,8 @@ using System.Xml.Serialization;
 
 namespace BankApplication
 {
+    [XmlRoot("BankData", Namespace = "http://www.BankApplication.com",
+    IsNullable = false)]
     public class Bank
     {
         public string Name { get; set; }
@@ -14,60 +16,15 @@ namespace BankApplication
         public int SameBankIMPSCharge { get; set; }
         public int DifferentBankRTGSCharge { get; set; }
         public int DifferentBankIMPSCharge { get; set; }
+        [XmlArray("Users")]
+        public List<User> users;
+        [XmlArray("Employees")]
+        public List<Employee> employees;
 
-
-        //public List<User> UserList { get; set; }
-        //public List<Transaction> AllTransaction { get; set; }
-
-        public void AddTransaction(Transaction transaction)
+        public Bank()
         {
-
-            List<Transaction> transactions = GetTransaction();
-            transactions.Add(transaction);
-
-            using Stream fs = new FileStream($"{Environment.CurrentDirectory}/transactions.xml", FileMode.Create, FileAccess.Write, FileShare.None);
-            XmlSerializer serializer = new XmlSerializer(typeof(List<Transaction>));
-            serializer.Serialize(fs, transactions);
-
-        }
-
-        public List<Transaction> GetTransaction()
-        {
-            List<Transaction> transactions = null;
-
-            XmlSerializer xmlSerializer = new XmlSerializer(typeof(List<Transaction>));
-
-            using (FileStream fs = File.OpenRead($"{Environment.CurrentDirectory}/transactions.xml"))
-            {
-                transactions = (List<Transaction>)xmlSerializer.Deserialize(fs);
-            }
-            return transactions;
-        }
-
-
-        public void AddUser(User newUser)
-        {
-
-            List<User> users = GetUsers();
-            users.Add(newUser);
-
-            using Stream fs = new FileStream($"{Environment.CurrentDirectory}/users.xml", FileMode.Create, FileAccess.Write, FileShare.None);
-            XmlSerializer serializer = new XmlSerializer(typeof(List<User>));
-            serializer.Serialize(fs, users);
-
-        }
-
-        public List<User> GetUsers()
-        {
-            List<User> users = null;
-
-            XmlSerializer xmlSerializer = new XmlSerializer(typeof(List<User>));
-
-            using(FileStream fs = File.OpenRead($"{Environment.CurrentDirectory}/users.xml"))
-            {
-                users = (List<User>)xmlSerializer.Deserialize(fs);
-            }
-            return users;
+            users = new List<User>();
+            employees = new List<Employee>();
         }
     }
 }

@@ -5,11 +5,11 @@ namespace BankApplication.Services
 {
     public class UserLoginServices
     {
-        //BankData bankData;
-        //public UserLoginServices(BankData bankData)
-        //{
-        //    this.bankData = bankData;
-        //}
+        Bank myBank;
+        public UserLoginServices(Bank bank)
+        {
+            this.myBank = bank;
+        }
 
         public void LoginUser(string role)
         {
@@ -17,41 +17,72 @@ namespace BankApplication.Services
             string name = Console.ReadLine();
             Console.WriteLine("Enter your password");
             string password = Console.ReadLine();
-            User loginUser = new User()
+            BankApplication bankApp = new BankApplication(myBank);
+            if (role != "S")
             {
-                Name = name,
-                Password = password,
-                Role = role == "S" ? "Staff" : role == "AH" ? "Account Holder" : "Admin",
-            };
-           
-            BankApplication bankApp = new BankApplication();
-            Bank bank = new Bank();
-            List<User> savedUsers = bank.GetUsers();
-            if (savedUsers.Count != 0 && savedUsers.Contains(loginUser))
-            {
-                Console.Clear();
-                Console.WriteLine("User successfully logged In");
-                if (role == "S" || role == "AD")
+                Console.WriteLine("Got user info");
+
+                User loginUser = new User()
                 {
-                    bankApp.BankStaffMenu();
+                    Name = name,
+                    Password = password,
+                };
+                AccountServices accountServices = new AccountServices(myBank);
+                bool flag = false;
+                foreach (var user in myBank.users)
+                {
+                    flag = true;
+                    if (user.Name == name && user.Password == password)
+                    {
+                        accountServices.AccId = user.AccId;
+                        Console.Clear();
+                        Console.WriteLine("User successfully logged In");
+                        bankApp.AccountHolderMenu();
+                    }
+                    else
+                    {
+                        loginUser.AccId = myBank.Name[..3] + loginUser.Name[..3] + DateTime.Now.ToShortDateString();
+                        loginUser.Balance = 0;
+                        myBank.users.Add(loginUser);
+                        accountServices.AccId = loginUser.AccId;
+                        Console.Clear();
+                        Console.WriteLine("New User successfully logged In");
+                        bankApp.AccountHolderMenu();
+                    }
                 }
-                else
+                if (!flag)
                 {
+                    loginUser.AccId = myBank.Name[..3] + loginUser.Name[..3] + DateTime.Now.ToShortDateString();
+                    loginUser.Balance = 0;
+                    myBank.users.Add(loginUser);
+                    accountServices.AccId = loginUser.AccId;
+                    Console.Clear();
+                    Console.WriteLine("New User successfully logged In");
                     bankApp.AccountHolderMenu();
                 }
             }
             else
             {
-                bank.AddUser(loginUser);
-                Console.Clear();
-                Console.WriteLine("New User successfully logged In");
-                if (role == "S" || role == "AD")
+                Employee loginEmployee = new Employee()
                 {
-                    bankApp.BankStaffMenu();
-                }
-                else
+                    Name = name,
+                    Password = password,
+                };
+                foreach (var employee in myBank.employees)
                 {
-                    bankApp.AccountHolderMenu();
+                    if (employee.Name == name && employee.Password == password)
+                    {
+                        Console.Clear();
+                        Console.WriteLine("Employee successfully logged In");
+                        bankApp.BankStaffMenu();
+                    }
+                    else
+                    {
+                        myBank.employees.Add(loginEmployee);
+                        Console.Clear();
+                        Console.WriteLine("Employee successfully logged In");
+                        bankApp.BankStaffMenu();
+                    }
                 }
             }
         }

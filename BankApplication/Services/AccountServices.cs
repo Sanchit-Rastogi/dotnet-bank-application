@@ -5,81 +5,87 @@ namespace BankApplication.Services
 {
     public class AccountServices
     {
-        //BankData bankData;
-        //public AccountServices(BankData bankData)
-        //{
-        //    this.bankData = bankData;
-        //}
-
-        static User userObj = new User();
-        Bank bank = new Bank();
-
+        Bank myBank;
+        public String AccId;
+        public AccountServices(Bank bank)
+        {
+            this.myBank = bank;
+        }
 
         public void MakeDeposite(decimal amount, string note, DateTime date)
         {
-            Account acc = new Account()
-            {
-                Name = userObj.Name,
-                AccId = "TXN" + DateTime.Now.ToLongDateString(),
-            };
             if (amount > 0)
             {
-                string id = "TXN" + acc.AccId + DateTime.Now.ToLongDateString();
+                string id = "TXN" + AccId + DateTime.Now.ToShortTimeString();
                 var deposite = new Transaction {
                     Amount = amount,
                     Note = note,
                     Date = date,
                     TxnId = id,
                 };
-                bank.AddTransaction(deposite);
-                Console.Clear();
-                Console.WriteLine("Amount deposited successfully");
-                Console.WriteLine("Current Balance " + acc.Balance.ToString());
-                BankApplication bankApp = new BankApplication();
-                bankApp.AccountHolderMenu();
+                foreach(var user in myBank.users)
+                {
+                    if (user.AccId == AccId) {
+                        int pos = user.transactions.Length;
+                        user.transactions[pos] = deposite;
+                        Console.Clear();
+                        Console.WriteLine("Amount deposited successfully");
+                        Console.WriteLine("Current Balance " + user.CalculateBalance(user.transactions).ToString());
+                        BankApplication bankApp = new BankApplication(myBank);
+                        bankApp.AccountHolderMenu();
+                    }
+                }
             }
         }
 
         public void MakeWithdrawal(decimal amount, string note, DateTime date)
         {
-            Account acc = new Account()
+            foreach (var user in myBank.users)
             {
-                Name = userObj.Name,
-                AccId = "TXN" + DateTime.Now.ToLongDateString(),
-            };
-            if (acc.Balance - amount > 0)
-            {
-                string id = "TXN" + acc.AccId + DateTime.Now.ToLongDateString();
-                var withdrawal = new Transaction {
-                    Amount = -amount,
-                    Note = note,
-                    Date = date,
-                    TxnId = id,
-                };
-                bank.AddTransaction(withdrawal);
-                Console.Clear();
-                Console.WriteLine("Amount withdrawn successfully");
-                Console.WriteLine("Current Balance " + acc.Balance.ToString());
-                BankApplication bankApp = new BankApplication();
-                bankApp.AccountHolderMenu();
-            }
-            else
-            {
-                Console.Clear();
-                Console.WriteLine("Not enough balance in the account");
-                Console.WriteLine("Current Balance " + acc.Balance.ToString());
-                BankApplication bankApp = new BankApplication();
-                bankApp.AccountHolderMenu();
+                if (user.AccId == AccId)
+                {
+                    if (user.CalculateBalance(user.transactions) - amount > 0)
+                    {
+                        string id = "TXN" + AccId + DateTime.Now.ToShortTimeString();
+                        var withdrawal = new Transaction
+                        {
+                            Amount = -amount,
+                            Note = note,
+                            Date = date,
+                            TxnId = id,
+                        };
+                        int pos = user.transactions.Length;
+                        user.transactions[pos] = withdrawal;
+                        Console.Clear();
+                        Console.WriteLine("Amount withdrawn successfully");
+                        Console.WriteLine("Current Balance " + user.CalculateBalance(user.transactions).ToString());
+                        BankApplication bankApp = new BankApplication(myBank);
+                        bankApp.AccountHolderMenu();
+                    }
+                    else
+                    {
+                        Console.Clear();
+                        Console.WriteLine("Not enough balance in the account");
+                        Console.WriteLine("Current Balance " + user.CalculateBalance(user.transactions).ToString());
+                        BankApplication bankApp = new BankApplication(myBank);
+                        bankApp.AccountHolderMenu();
+                    }
+                }
             }
         }
 
         public void DisplayTransactions()
         {
-            Console.WriteLine("TXN ID \t\t NOTE \t\t AMOUNT \t\t DATE");
-            List<Transaction> allTransactions = bank.GetTransaction();
-            foreach (var transaction in allTransactions)
+            foreach (var user in myBank.users)
             {
-                Console.WriteLine($"{transaction.TxnId} \t\t {transaction.Note} \t\t {transaction.Amount} \t\t {transaction.Date}");
+                if (user.AccId == AccId)
+                {
+                    Console.WriteLine("TXN ID \t\t NOTE \t\t AMOUNT \t\t DATE");
+                    foreach (var transaction in user.transactions)
+                    {
+                        Console.WriteLine($"{transaction.TxnId} \t\t {transaction.Note} \t\t {transaction.Amount} \t\t {transaction.Date}");
+                    }
+                }
             }
             Console.WriteLine("");
             Console.WriteLine("Enter something to go back");
@@ -88,7 +94,7 @@ namespace BankApplication.Services
             {
                 default:
                     Console.Clear();
-                    BankApplication bankApp = new BankApplication();
+                    BankApplication bankApp = new BankApplication(myBank);
                     bankApp.AccountHolderMenu();
                     break;
             }

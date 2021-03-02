@@ -6,8 +6,8 @@ namespace BankApplication
     { 
         static void Main(string[] args)
         {
-            //BankData bankData = new BankData();
-            BankApplication bankApp = new BankApplication();
+            Bank bank = new Bank();
+            BankApplication bankApp = new BankApplication(bank);
             bankApp.DisplayMainMenu();
         }
     }
