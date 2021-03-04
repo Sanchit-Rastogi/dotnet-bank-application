@@ -1,27 +1,13 @@
 ﻿using System;
-using BankApplication.Services;
-using System.IO;
-using System.Xml.Serialization;
+using Bank.Services;
+using Bank.Models;
 using System.Collections.Generic;
 
 namespace BankApplication
 {
     public class BankApplication
     {
-        Bank bank;
-        public BankApplication(Bank bank)
-        {
-            this.bank = bank;
-        }
-
-        public void SaveToXML()
-        {
-            XmlSerializer serializer = new XmlSerializer(typeof(Bank));
-            TextWriter writer = new StreamWriter("bankData.xml");
-            serializer.Serialize(writer, bank);
-            writer.Close();
-        }
-
+      
         public void DisplayMainMenu()
         {
             //Console.Clear();
@@ -31,19 +17,19 @@ namespace BankApplication
             Console.WriteLine("2. Login for Staff / Account holder");
             Console.WriteLine("3. Exit");
             int res = Convert.ToInt32(Console.ReadLine());
-            BankServices bankServices = new BankServices(bank);
+            BankServices bankServices = new BankServices();
             switch (res)
             {
                 case 1:
                     Console.WriteLine("Registereing a new bank");
-                    bankServices.RegisterBank();
+                    bool result = bankServices.RegisterBank();
+                    if (result) DisplayMainMenu();
                     break;
                 case 2:
                     DisplayLoginMenu();
                     break;
                 case 3:
-                    SaveToXML();
-                    //Environment.Exit(0);
+                    Environment.Exit(0);
                     break;
                 default:
                     Console.WriteLine("Please select a valid option !!");
@@ -55,24 +41,22 @@ namespace BankApplication
         public void DisplayLoginMenu() {
             Console.Clear();
             Console.WriteLine("Please enter option from the list :- \n");
-            Console.WriteLine("1. Login as a staff");
-            Console.WriteLine("2. Login as a account holder");
-            Console.WriteLine("3. Login as an admin");
+            Console.WriteLine("1. Login as a Account Holder");
+            Console.WriteLine("2. Login as a Employee");
             Console.WriteLine("3. Go Back to main menu");
             int res = Convert.ToInt32(Console.ReadLine());
-            UserLoginServices userLogin = new UserLoginServices(bank);
+            UserLoginServices userLogin = new UserLoginServices();
             switch (res)
             {
                 case 1:
-                    userLogin.LoginUser("S");
+                    bool result = userLogin.LoginUser("AH");
+                    if (result) AccountHolderMenu();
                     break;
                 case 2:
-                    userLogin.LoginUser("AH");
+                    bool result1 = userLogin.LoginUser("Emp");
+                    if (result1) BankStaffMenu();
                     break;
                 case 3:
-                    userLogin.LoginUser("S");
-                    break;
-                case 4:
                     Console.Clear();
                     DisplayMainMenu();
                     break;
@@ -86,7 +70,7 @@ namespace BankApplication
 
         public void AccountHolderMenu()
         {
-            AccountServices accountServices = new AccountServices(bank);
+            AccountServices accountServices = new AccountServices();
             Console.WriteLine("Hi! Welcome to the Account Holder menu :- \n");
             Console.WriteLine("1. Deposite Money.");
             Console.WriteLine("2. Withdraw Money");
@@ -99,20 +83,59 @@ namespace BankApplication
                 case 1:
                     Console.WriteLine("Enter amount to be deposited :- ");
                     decimal amountDeposited = Convert.ToInt32(Console.ReadLine());
-                    accountServices.MakeDeposite(amountDeposited, "Made a deposte", DateTime.Now);
+                    bool result = accountServices.Deposite(amountDeposited, "Made a deposte", DateTime.Now);
+                    if (result)
+                    {
+                        Console.Clear();
+                        Console.WriteLine("Amount Successfully deposited");
+                        AccountHolderMenu();
+                    }
+                    else
+                    {
+                        Console.Clear();
+                        Console.WriteLine("Unable to deposite amount, Try again later !");
+                        AccountHolderMenu();
+                    }
                     break;
                 case 2:
                     Console.WriteLine("Enter amount to be withdrawn :- ");
                     decimal amountWithdrawn = Convert.ToInt32(Console.ReadLine());
                     Console.WriteLine("Enter note for withdrawl :- ");
                     string note = Console.ReadLine();
-                    accountServices.MakeWithdrawal(amountWithdrawn, note, DateTime.Now);
+                    bool result1 = accountServices.Withdrawal(amountWithdrawn, note, DateTime.Now);
+                    if (result1)
+                    {
+                        Console.Clear();
+                        Console.WriteLine("Amount Successfully withdrawn");
+                        AccountHolderMenu();
+                    }
+                    else
+                    {
+                        Console.Clear();
+                        Console.WriteLine("Unable to withdraw amount, Try again later !");
+                        AccountHolderMenu();
+                    }
                     break;
                 case 3:
                     Console.WriteLine("transfer money under work");
                     break;
                 case 4:
-                    accountServices.DisplayTransactions();
+                    List<Transaction> transactions = accountServices.DisplayTransactions();
+                    Console.WriteLine("TXN ID \t\t NOTE \t\t AMOUNT \t\t DATE");
+                    foreach (var transaction in transactions)
+                    {
+                        Console.WriteLine($"{transaction.TxnId} \t\t {transaction.Note} \t\t {transaction.Amount} \t\t {transaction.Date}");
+                    }
+                    Console.WriteLine("");
+                    Console.WriteLine("Enter something to go back");
+                    String result2 = Console.ReadLine();
+                    switch (result2)
+                    {
+                        default:
+                            Console.Clear();
+                            AccountHolderMenu();
+                            break;
+                    }
                     break;
                 case 5:
                     DisplayMainMenu();
@@ -137,17 +160,17 @@ namespace BankApplication
             Console.WriteLine("6. View transactions history.");
             Console.WriteLine("7. Revert a transaction.");
             int res = Convert.ToInt32(Console.ReadLine());
-            BankStaffServices bankStaffServices = new BankStaffServices(bank);
+            BankStaffServices bankStaffServices = new BankStaffServices();
             switch (res)
             {
                 case 1:
                     DisplayLoginMenu();
                     break;
                 case 2:
-                    bankStaffServices.UpdateAccount();
+                    Console.WriteLine("Add service charges for this bank.");
                     break;
                 case 3:
-                    bankStaffServices.AddNewCurrency();
+                    Console.WriteLine("Add service charges for this bank.");
                     break;
                 case 4:
                     Console.WriteLine("Add service charges for this bank.");

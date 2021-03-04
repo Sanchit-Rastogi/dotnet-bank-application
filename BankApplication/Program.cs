@@ -8,13 +8,8 @@ namespace BankApplication
     { 
         static void Main(string[] args)
         {
-            Bank bank = new Bank();
-            XmlSerializer serializer = new XmlSerializer(typeof(Bank));
-            FileStream fs = new FileStream("bankData.xml", FileMode.Open);
-            bank = (Bank)serializer.Deserialize(fs);
-            Console.WriteLine("Name of the saved bank is : " + bank.Name);
-            BankApplication bankApp = new BankApplication(bank);
-            bankApp.DisplayMainMenu();
+            BankApplication BankApp = new BankApplication();
+            BankApp.DisplayMainMenu();
         }
     }
 }
