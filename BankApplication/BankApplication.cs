@@ -7,6 +7,16 @@ namespace BankApplication
 {
     public class BankApplication
     {
+
+        public BankApplication()
+        {
+            Initialize();
+        }
+
+        public void Initialize()
+        {
+            DisplayMainMenu();
+        }
       
         public void DisplayMainMenu()
         {

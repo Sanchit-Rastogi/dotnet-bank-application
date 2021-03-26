@@ -9,4 +9,8 @@
     <ProjectReference Include="..\Bank.Services\Bank.Services.csproj" />
     <ProjectReference Include="..\Bank.Models\Bank.Models.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NETCore.App" Version="$(RuntimeFrameworkVersion)"><AllowExplicitVersion>true</AllowExplicitVersion>
+</PackageReference>
+  </ItemGroup>
 </Project>
